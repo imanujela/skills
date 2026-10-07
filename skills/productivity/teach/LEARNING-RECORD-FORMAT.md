@@ -33,14 +33,26 @@ Write one when any of these is true:
 1. **The user demonstrated genuine understanding of something non-trivial**: not just exposure, but evidence they can use the concept correctly. This sets a new floor for what to teach next.
 2. **The user disclosed prior knowledge**: "I already know X." Record it so future sessions don't re-teach it. Also record the _depth_ claimed.
 3. **A misconception was corrected**: the user previously believed something wrong and now sees why. These are high-value: they predict future stumbling blocks for related topics.
-4. **The mission shifted in response to learning**: the user discovered they cared about something different than they thought. Cross-link to [[MISSION.md]] and update it.
+4. **The mission shifted in response to learning**: the user discovered they cared about something different than they thought. Cross-link to `MISSION.md` and update it.
 
 ### What does _not_ qualify
 
 - Material that was merely covered. Coverage is not learning. Wait for evidence.
-- Anything already captured tersely in [[GLOSSARY.md]] as a term definition. Don't duplicate.
+- Anything already captured tersely in `GLOSSARY.md` as a term definition. Don't duplicate.
 - Session-by-session activity logs. Learning records are not a journal: they are decision-grade insights.
 
 ## Supersession
 
 When a later record contradicts an earlier one (the user's understanding deepened or corrected), mark the old record `Status: superseded by LR-NNNN` rather than deleting it. The history of how understanding evolved is itself useful signal.
+
+## Verification
+
+- Each record is sequence-numbered (`0001-`, `0002-`, …) and resides in `./learning-records/`.
+- Every record was written only on evidence of learning, not on mere coverage.
+- Contradictions are handled by supersession links, never by silent deletion.
+
+## Pitfalls
+
+- **Recording coverage as learning**, which inflates the estimate of the user's level and misleads the zone of proximal development.
+- **Re-teaching disclosed prior knowledge**: failure to capture "I already know X" makes the next session waste the user's time.
+- **A journal instead of decision-grade insights**, so nothing here can steer what to teach next.

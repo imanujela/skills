@@ -30,3 +30,15 @@
 - **Surface gaps explicitly.** If no good resource exists for an area the mission needs, write a `## Gaps` section listing what is missing. This drives future search.
 - **Prune ruthlessly.** A resource that turned out to be wrong, shallow, or off-mission should be removed, not buried. Better five sharp sources than thirty mediocre ones.
 - **Record community preferences.** If the user has opted out of joining communities, note it here so future sessions don't keep proposing them.
+
+## Verification
+
+- Every entry carries a one-line annotation, not just a link.
+- Every factual claim made in lessons traces back to an entry here.
+- Gaps driving future search are recorded explicitly rather than left silent.
+
+## Pitfalls
+
+- **Entrusting facts to parametric knowledge** instead of drawing them from this curated set — a hallucinated claim poisons trust.
+- **Bare, unannotated links**, which robs the list of its usefulness within weeks.
+- **A graveyard of stale sources**, where once-discredited material lingers because nothing prunes it.

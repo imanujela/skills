@@ -1,3 +1,11 @@
+# agents/openai.yaml — how the 'writing-beats' skill is surfaced to
+# OpenAI-compatible agent UIs. Interface manifest only; does not affect behaviour.
+#
+#   interface.display_name      — human-readable name shown in the UI
+#   interface.short_description — one-line tooltip/description
+#   policy.allow_implicit_invocation: false — model cannot auto-invoke; the
+#     user must invoke it explicitly. Matches `disable-model-invocation: true`
+#     in the SKILL.md frontmatter. Keep false.
 interface:
   display_name: "Writing Beats"
   short_description: "Assemble raw material into beats"

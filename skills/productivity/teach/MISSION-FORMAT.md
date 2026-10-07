@@ -29,3 +29,14 @@
 - **Push back on vagueness.** If the user cannot articulate why, interview them before writing anything. A bad mission is worse than no mission.
 - **Revise when reality shifts.** Missions change. When the user's goal moves, update this file: don't leave a stale mission steering future sessions.
 - **Keep it short.** If `MISSION.md` runs past a screen, it has stopped being a compass and started being a plan.
+
+## Verification
+
+- Every `##` section from the template (Why, Success looks like, Constraints, Out of scope) is populated with concrete, observable statements.
+- The Why names an underlying outcome, not "to understand X."
+
+## Pitfalls
+
+- **An abstract Why** ("understand physics") that gives no way to judge whether a lesson moves the user toward their goal.
+- **A sprawling mission** that has drifted from compass into plan, diluting its power to steer.
+- **A stale mission** that keeps driving sessions long after the user's goal moved on.

@@ -6,13 +6,24 @@
 // the files at the package root. Implementation lives in SUBFOLDERS and is
 // private (by convention `lib/` for implementation and `tests/` for tests,
 // though any subfolder is private). A package may expose several small entry
-// points (index.ts, client.ts, server.ts, …); prefer that over one giant
+// points (index.ts, client.ts, server.ts, ...); prefer that over one giant
 // barrel index.
 //
 // The only thing you should ever need to edit here is PACKAGES_ROOT.
+"use strict";
 
 /** Where packages live. One immediate child dir per package (flat, no nesting). */
 const PACKAGES_ROOT = "src/packages";
+
+// Fail fast with a clear message rather than silently shipping a config that
+// matches nothing (or everything). A broken PACKAGES_ROOT is not something you
+// want to discover at CI time.
+if (!PACKAGES_ROOT || typeof PACKAGES_ROOT !== "string" || PACKAGES_ROOT.startsWith("/") || PACKAGES_ROOT.endsWith("/")) {
+  throw new Error(
+    `dependency-cruiser: invalid PACKAGES_ROOT "${PACKAGES_ROOT}". ` +
+      "Set it to a relative packages dir without leading/trailing slashes, e.g. \"src/packages\"."
+  );
+}
 
 // --- derived patterns (no need to edit) -------------------------------------
 const R = PACKAGES_ROOT;

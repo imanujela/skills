@@ -8,11 +8,11 @@ The user has asked for a **retrospective**. You are suggesting improvements to t
 
 ## Steps
 
-1. Call the Skill tool with `writing-for-agents` for the writing style guide.
+1. **Load the writing guide.** Call the Skill tool with `writing-for-agents` for the writing style guide. *Done when:* the guide is loaded and visibly shapes how candidates are worded.
 
-2. Read the primary sources for the session the user specifies. This may mean searching through session logs on this machine. If the user doesn't specify a session, default to the current one.
+2. **Read the primary sources** for the session the user specifies. This may mean searching through session logs on this machine. If the user doesn't specify a session, default to the current one. *Done when:* you've confirmed the correct session (check with the user if ambiguous), read the session end-to-end, and extracted a timeline of its mistakes and friction — you can't suggest improvements to a session you haven't actually read.
 
-3. Look for candidates for improvement in these categories.
+3. **Look for candidates** in these categories.
 
 - **Navigation**: how easy was it for the agent to find the right files? Are there hidden dependencies between files? Would a **navigation pointer** make it easier? _Use when_ the session took a long time to find a piece of information.
 - **Automated checks**: are there automated checks that could catch errors the agent made? Linting, typing, tests, filesystem linters? Read the repo's own check command first (its `package.json`/build-tool `lint`/`check` scripts, its CI workflow), so a check that already exists but sits unwired or silently broken is the finding, not a reinvention. A repo with no **guardrail** (no pre-commit hook and no CI job running its lint/typecheck/test command) is itself a finding: an un-linted repo is a standing missed opportunity, not a neutral default. _Use when_ the agent made a mistake an automated check could have caught, or the repo has no guardrail at all.
@@ -22,7 +22,7 @@ The user has asked for a **retrospective**. You are suggesting improvements to t
 - **No-ops**: look for instructions in steering files that don't modify the agent's behavior. _Use when_ the steering files are large and unwieldy.
 - **Information access**: look for opportunities to increase the agent's access to information. Teeing dev server logs, readonly access to third-party services. _Use when_ a crucial piece of information was not available to the agent.
 
-4. Present these candidates to the user, in order of severity.
+4. **Present the candidates** to the user, in order of severity. *Done when:* each candidate names the concrete change it would make (which file, which check, which rule), cites the specific incident it would have prevented, and the user has had a chance to respond to the list.
 
 ## Reference
 
@@ -42,3 +42,16 @@ You have access to several files in the repo:
 - `CODING_STANDARDS.md`: this file is read during review, not implementation. Add **navigation pointers** to docs folders if the standards file gets more than 1,000 lines long.
 - Docs: use docs as references files, pointed to by other files. Look for existing docs before writing new ones.
 - Skills: use skills for docs (since their description goes into the agent's context window), or for user-invoked commands. Follow the advice in the `writing-for-agents` skill.
+
+## Verification
+
+- Every candidate names a specific incident from the session it would have prevented; no generic advice.
+- Proposed checks were compared against the repo's own check commands/CI first: nothing re-invents a check that exists but sits unwired.
+- Nothing lands in `CLAUDE.md`/`AGENTS.md` that a lint rule, pre-commit hook, or `CODING_STANDARDS.md` rule could enforce instead.
+
+## Pitfalls
+
+- **Re-inventing a broken check**: the CI job or lint script exists but doesn't run on the branch the agent worked on, or fails silently. Fixing the wiring is the finding, not adding a new check.
+- **Mechanical violations in prose**: a violation a fixed pattern can catch (banned API, import shape) pushed to `CODING_STANDARDS.md` instead of a deterministic check; prose rules get skipped under context pressure.
+- **Wrong session**: the user means yesterday's session; the agent analyzes the current one. Confirm which session before reading logs.
+- **Rule inflation**: dumping ten rules from one session. Present most severe first and let the user stop you; the top two or three are what will actually stick.

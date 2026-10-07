@@ -18,6 +18,8 @@ Then run a beat-by-beat journey, choose-your-own-adventure style:
 4. Re-read the article file from disk. Then offer 2–3 candidate **next beats**: different directions the journey could pivot to from where the article now stands. Each must be reachable from the current grounded set; note what each one grounds.
 5. Loop steps 3–5 until the article reaches a natural end.
 
+**Done when:** the journey reaches a natural end and the user is satisfied. Each step is only complete once the file on disk matches the agreed beat.
+
 </what-to-do>
 
 <supporting-info>
@@ -63,5 +65,16 @@ The article ends when the journey is complete, not when the pile is empty. Most 
 - Re-read the article file from disk before every write. Preserve user edits absolutely.
 - If the user edits a previous beat substantially, let it change what comes next.
 - If the user says "rewrite that beat" or "go back and try a different beat 3", do it: edit in place, leave the rest alone.
+
+## WIP framing (in progress)
+
+The journey is the product. Every time you write a beat, you are committing the article to a direction — keep offering genuine alternatives, not just reorderings of the same beat. The grounding list is the source of truth for what is reachable; maintain it out loud.
+
+## Pitfalls
+
+- **Never write ahead.** Appending a full draft violates the choose-your-own-adventure premise and destroys the user's agency over direction.
+- **Leaning on an ungrounded concept is the one forbidden move.** If a tempting beat needs something nothing has grounded yet, say so and resolve it (ground it first, or promote it to a prerequisite).
+- **A beat is one move.** If it needs multiple subheadings, it's several beats glued together — split it.
+- **Respect the file on disk.** Always re-read before writing; the user's edits between turns are absolute.
 
 </supporting-info>

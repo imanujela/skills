@@ -103,3 +103,7 @@ If the maintainer changes their mind about a previously rejected concept:
 - Delete the `.out-of-scope/` file
 - The skill does not need to reopen old issues; they're historical records
 - The new issue that triggered the reconsideration proceeds through normal triage
+
+## Distinguishing rejection from deferral
+
+A rejection says "not in this project's scope, ever, for a durable reason." A deferral says "not now" (capacity, timing, an immature dependency). Only rejections belong in `.out-of-scope/`; a deferral should be closed as a `wontfix` with the temporary reason stated in the comment, but not recorded as a durable rejection — otherwise the dedup check will keep resurfacing a thing that might become in-scope later.

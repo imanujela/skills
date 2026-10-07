@@ -1,3 +1,13 @@
+# agents/openai.yaml — how the 'git-guardrails-claude-code' skill is surfaced to
+# OpenAI-compatible agent UIs. This is an interface manifest only: the values
+# below control the display name and tooltip, never the skill's behaviour.
+#
+#   interface.display_name      — human-readable name shown in the UI
+#   interface.short_description — one-line tooltip/description
+#
+# Note: this skill intentionally has NO `policy.allow_implicit_invocation`
+# block, matching its model-invocable nature — the model may auto-invoke the
+# guardrail skill. Only add a `policy` block if you decide to disable that.
 interface:
   display_name: "Git Guardrails for Claude Code"
   short_description: "Block dangerous git commands"

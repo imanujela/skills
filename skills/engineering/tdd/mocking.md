@@ -57,3 +57,7 @@ The SDK approach means:
 - No conditional logic in test setup
 - Easier to see which endpoints a test exercises
 - Type safety per endpoint
+
+## The boundary test
+
+A mock is a stand-in for a boundary you don't control from the test. The moment you find yourself mocking something you could instantiate or call, the seam is wrong: move the test to the real thing, or move the seam out to the real boundary. The cost of a test that mocks own-code is that it can't fail when own-code's contract changes — exactly the regression you wrote it to catch.

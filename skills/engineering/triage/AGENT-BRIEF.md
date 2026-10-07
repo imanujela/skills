@@ -205,3 +205,7 @@ This is bad because:
 - No acceptance criteria
 - No scope boundaries
 - No description of current vs desired behavior
+
+## The one-sentence test
+
+Read the brief's "Desired behavior" and "Acceptance criteria" to someone who has never seen the issue. If they can't tell you exactly what "done" looks like, the brief isn't durable enough to hand an agent days later.

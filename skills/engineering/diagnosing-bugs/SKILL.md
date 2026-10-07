@@ -1,6 +1,6 @@
 ---
 name: diagnosing-bugs
-description: Diagnosis loop for hard bugs and performance regressions. Use when the user says "diagnose"/"debug this", or reports something broken/throwing/failing/slow.
+description: Diagnosis loop for hard bugs and performance regressions. Use when the user says "diagnose"/"debug this", or reports something broken/throwing/failing/slow, or when a fix attempt didn't stick and the cause is unknown.
 ---
 
 # Diagnosing Bugs
@@ -97,6 +97,8 @@ If you cannot state the prediction, the hypothesis is a vibe: discard or sharpen
 
 **Show the ranked list to the user before testing.** They often have domain knowledge that re-ranks instantly ("we just deployed a change to #3"), or know hypotheses they've already ruled out. Cheap checkpoint, big time saver. Don't block on it; proceed with your ranking if the user is AFK.
 
+Done when 3–5 ranked, prediction-bearing hypotheses exist in writing, and each one can be killed by a specific observable outcome.
+
 ## Phase 4: Instrument
 
 Each probe must map to a specific prediction from Phase 3. **Change one variable at a time.**
@@ -110,6 +112,8 @@ Tool preference:
 **Tag every debug log** with a unique prefix, e.g. `[DEBUG-a4f2]`. Cleanup at the end becomes a single grep. Untagged logs survive; tagged logs die.
 
 **Perf branch.** For performance regressions, logs are usually wrong. Instead: establish a baseline measurement (timing harness, `performance.now()`, profiler, query plan), then bisect. Measure first, fix second.
+
+Done when every probe names the hypothesis and prediction it tests, exactly one variable changed since the last run, and all instrumentation carries the debug prefix.
 
 ## Phase 5: Fix + regression test
 
@@ -127,6 +131,8 @@ If a correct seam exists:
 4. Watch it pass.
 5. Re-run the Phase 1 feedback loop against the original (un-minimised) scenario.
 
+Done when the test went red before the fix and green after, the un-minimised loop is also green, and any no-seam finding is written down.
+
 ## Phase 6: Cleanup
 
 Required before declaring done:
@@ -136,3 +142,22 @@ Required before declaring done:
 - [ ] All `[DEBUG-...]` instrumentation removed (`grep` the prefix)
 - [ ] Throwaway prototypes deleted (or moved to a clearly-marked debug location)
 - [ ] The hypothesis that turned out correct is stated in the commit / PR message, so the next debugger learns
+
+## Verification
+
+The diagnosis ran correctly when:
+
+- The Phase 1 completion checklist was satisfied *before* any hypothesis was tested — there is a named, already-run, red-capable command in the transcript.
+- The minimised repro, ranked hypotheses, and the winning prediction are all visible in writing.
+- The fix is witnessed twice: regression test green, and the original un-minimised loop green.
+- Every `[DEBUG-...]` prefix returns zero grep hits in the final diff.
+- No secret appears unredacted in any shown output.
+
+## Pitfalls
+
+- **Theorising without a loop.** Reading code, forming a story, "fixing" it, declaring victory — with no red command anywhere. This is the failure the whole skill exists to prevent.
+- **Green by construction.** The regression test passes because a fixture mutation forced it red, not because the bug is caught. Always diff the mutation against a pristine copy.
+- **Fixing a nearby bug.** The loop goes green but the failure it caught isn't the one the user described. Re-check Phase 2's first checkbox.
+- **Untagged debug logs.** Instrumentation without the `[DEBUG-...]` prefix survives cleanup and ships to production. Tag at creation, never retroactively.
+- **Chasing the 1% flake.** Trying to debug a bug that reproduces once in a hundred runs instead of first raising the reproduction rate.
+- **Testing hypotheses one at a time from a single hunch.** Anchoring on the first plausible cause; the ranked-list requirement is the antidote.

@@ -1,5 +1,12 @@
+# Block intent: Codex agent-interface config for this skill. Maps the skill to a
+# display name and one-line description shown in Codex UI, plus the policy keys.
+# The keys are the entire schema; adding keys does nothing. Edit only when
+# renaming the skill or re-wording the UI blurb. Companion: SKILL.md here.
+# Usage: leave in place; Codex reads it automatically. allow_implicit_invocation
+# governs whether the model may invoke the skill without the user naming it.
+
 interface:
   display_name: "Wayfinder"
-  short_description: "Map a large effort as decision tickets"
+  short_description: "Chart a shared map to a destination"
 policy:
   allow_implicit_invocation: false

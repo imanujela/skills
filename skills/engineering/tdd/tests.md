@@ -75,3 +75,11 @@ test("calculateTotal sums line items", () => {
   expect(calculateTotal([{ price: 10 }, { price: 5 }])).toBe(15);
 });
 ```
+
+## Reading a test to judge it
+
+Before trusting any test, ask three questions of it:
+
+1. **What behavior does it pin down?** If you can't say it in one sentence about the user/caller, it's testing a mechanism, not a behavior.
+2. **What would make it fail?** If only a refactor (not a behavior change) would break it, it's implementation-coupled.
+3. **Could it pass when the code is wrong?** If the system is broken but this test is still green, it's doing no work.

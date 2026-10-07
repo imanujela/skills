@@ -121,3 +121,20 @@ Plain English, concise, but the architectural nouns and verbs come straight from
 **Wins bullets** name the gain in glossary terms: *"locality: bugs concentrate in one module"*, *"leverage: one interface, N call sites"*, *"interface shrinks; implementation absorbs the wrappers"*. Don't write *"easier to maintain"* or *"cleaner code"*, because those terms aren't in the glossary and don't earn their place.
 
 No hedging, no throat-clearing, no "it's worth noting that…". If a sentence could be a bullet, make it a bullet. If a bullet could be cut, cut it. If a term isn't in the `/codebase-design` glossary, reach for one that is before inventing a new one.
+
+## Verification
+
+The report was correct when:
+
+- It is one self-contained file in the OS temp dir (never in the repo), opened for the user, with the absolute path given.
+- The only `<script>` tags are the Tailwind CDN and the Mermaid ESM import.
+- Every candidate card has all six elements, its before/after diagram, and a badge; every architectural noun is glossary-accurate.
+- It ends with the single top recommendation, and nothing outside Mermaid's rendering is interactive.
+
+## Pitfalls
+
+- **Generic diagrams.** The same Mermaid flowchart for every candidate makes the report a wall of sameness; each candidate picks the pattern that fits its shape.
+- **Paragraphs under diagrams.** If the card needs prose to be understood, the diagram failed; redraw it.
+- **Vocabulary drift.** "Service", "component", "wrapper" slipping into prose that should say module/interface/seam; the tone section is a rule, not a suggestion.
+- **Shipping into the repo.** Writing the file under the project tree risks a stray commit; the temp dir is the contract.
+- **Interactivity creep.** Adding app code or JS beyond Mermaid's own rendering defeats "static self-contained report".

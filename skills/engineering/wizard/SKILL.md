@@ -26,7 +26,7 @@ Then show the user the ordered list of stages and the values each produces, and 
 
 ### 2. Map each stage's journey
 
-For each stage, write the precise path a human follows: which URL to open, what to do there, where a value is shown, which variable it fills: e.g. "Dashboard → Developers → API keys → Reveal test key → copy". Where you don't actually know the current UI or the exact command, say so and ask the user or check the docs: never invent steps that may not exist.
+For each stage, write the precise path a human follows: which URL to open, what to do there, where a value is shown, which variable it fills: e.g. "Dashboard -> Developers -> API keys -> Reveal test key -> copy". Where you don't actually know the current UI or the exact command, say so and ask the user or check the docs: never invent steps that may not exist.
 
 **Done when:** every stage traces to concrete instructions a stranger could follow.
 
@@ -42,3 +42,19 @@ Hold the bar the template sets: open the URL before asking for its value, use `a
 - `chmod +x <script>`.
 - Don't run it end-to-end yourself: it opens browsers and blocks on human input. Trace it statically instead: every value from step 1 is captured and lands where step 1 said, and every `set_secret` name exactly matches a `secrets.*` reference in CI.
 - Tell the user how to run it. If it's a repeatable setup path, commit it and link it from the README so the next person runs the script instead of asking an AI.
+
+## Verification (before hand-off)
+
+- `bash -n` passes; `shellcheck` clean if available.
+- One `stage()` per step, `TOTAL_STAGES` matches the count you wrote.
+- Every value named in step 1 is captured with `ask`/`ask_secret` and lands where step 1 said (`.env` via `write_env`, CI via `set_secret`/`set_var`, or neither for pure-action stages).
+- Every `set_secret NAME` matches a `secrets.NAME` (or `vars.NAME`) reference in `.github/workflows/*`; nothing CI needs is missing, nothing unneeded is set.
+- Secrets use `ask_secret`; the library above the `STAGES` marker is byte-identical to `template.sh`.
+
+## Pitfalls
+
+- **Inventing UI steps**: describing clicks on a dashboard you've never seen. Ask the user or read the docs; a wizard built on fabricated steps fails the human at the exact moment it's supposed to help.
+- **Secret in plain `ask`**: capturing an API key with visible input. Anything secret gets `ask_secret`.
+- **CI values missed**: scoping the wizard without reading `.github/workflows/*`, so the script writes `.env` but never the secrets the pipeline needs. Every `secrets.*`/`vars.*` reference is a value to produce.
+- **Editing the library**: hand-touching code above the `STAGES` marker, breaking the "identical library" invariant. Only the stages are authored.
+- **Running it end-to-end to test**: it opens a browser and blocks on human input. Verify statically (`bash -n`, trace the values) instead.

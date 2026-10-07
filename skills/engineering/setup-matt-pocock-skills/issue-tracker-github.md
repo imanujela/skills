@@ -1,6 +1,6 @@
 # Issue tracker: GitHub
 
-Issues and specs for this repo live as GitHub issues. Use the `gh` CLI for all operations.
+Issues and specs for this repo live as GitHub issues. Use the `gh` CLI for all operations. Installed by `/setup-matt-pocock-skills`; read by the engineering skills that act on issue trackers.
 
 ## Conventions
 

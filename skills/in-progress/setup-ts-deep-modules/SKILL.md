@@ -52,7 +52,7 @@ Install `dependency-cruiser` as a devDependency with the detected package manage
 
 ### 3. Write the config
 
-Copy [`dependency-cruiser.config.cjs`](./dependency-cruiser.config.cjs) to the repo root as `.dependency-cruiser.cjs`. Set `PACKAGES_ROOT` to the root detected in step 1. The rules are path-depth based and extension-agnostic, so nothing else needs adapting.
+Copy [`dependency-cruiser.config.cjs`](./dependency-cruiser.config.cjs) to the repo root as `.dependency-cruiser.cjs`. Set `PACKAGES_ROOT` to the root detected in step 1. The rules are path-depth based and extension-agnostic, so nothing else needs adapting. The config validates `PACKAGES_ROOT` at load and throws a clear error if it is malformed (relative, no leading/trailing slash) — set it correctly or it will fail loudly.
 
 **Done when:** `.dependency-cruiser.cjs` exists with the correct `PACKAGES_ROOT`, and the four forbidden rules are present.
 
@@ -94,9 +94,20 @@ Then add a **context pointer** to it from the repo's agent-instructions file (`C
 
 **Done when:** `<packages-root>/README.md` exists and discourages barrels, and the repo's `CLAUDE.md`/`AGENTS.md` links to it.
 
+## WIP framing (in progress)
+
+Steps 1–7 are a complete walkthrough, but treat the repo-specific judgement (packages root, merge vs. overwrite, umbrella script name) as the real work. The config is a template; the *documentation* you write in step 7 is what makes the convention stick for other agents.
+
 ## Notes
 
 - The config's `$1` back-references (dependency-cruiser's group matching) are what let a package reach its own internals while outsiders can't. Don't flatten them into separate per-package rules.
 - Public vs private is decided by **depth**: a package's root files are entry points; anything in a subfolder is private. The conventional subfolders are `lib/` (implementation) and `tests/`, but the rule doesn't hardcode them: any subfolder is private, so a new folder never needs a config change. Adding an entry point is just adding a root file (no barrel).
 - Packages are **flat**: one tier of immediate children under the root. A package's internals may nest as deep as you like; a package may not contain another package.
 - Use `.cjs` (not `.js`) so the config's `module.exports` works even in `"type": "module"` repos.
+
+## Pitfalls
+
+- **A config that never fails is worse than no config.** The skill is only "done" when the temporary deep-import failure is observed (step 6). Skip it and you'll ship rules you can't prove.
+- **Overwriting an existing `.dependency-cruiser.*` destroys the user's rules.** Always merge and report what you added.
+- **`$1` back-references are load-bearing.** Flattening them into per-package rules breaks intra-package freedom and makes the config unmaintainable as packages grow.
+- **Don't barrel.** A single huge `index.ts` that re-exports the whole subtree defeats the point; the convention exists so entry points stay small.

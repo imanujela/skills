@@ -43,6 +43,8 @@ Write down the plan in one line, in the prototype's location or a top-of-file co
 
 This works whether the user is here to push back or not.
 
+Done when the count (3–5) and the host route are written down before any variant code exists.
+
 ### 2. Generate radically different variants
 
 Draft each variant. Hold each one to:
@@ -52,6 +54,8 @@ Draft each variant. Hold each one to:
 - A clear exported component name, e.g. `VariantA`, `VariantB`, `VariantC`.
 
 Variants must be **structurally different**: different layout, different information hierarchy, different primary affordance, not just different colours. Three slightly-tweaked card grids isn't a UI prototype, it's wallpaper. If two drafts come out too similar, redo one with explicit "do not use a card grid" guidance.
+
+Done when no two variants share a layout or information hierarchy — checking this is part of the step, not a hope.
 
 ### 3. Wire them together
 
@@ -103,6 +107,8 @@ Once a variant has won, capture the answer (which variant and why), then capture
 - **Sub-shape B**: promote the winning variant to a real route; drop the throwaway route and the switcher from main.
 
 The full set of variants is the primary source, so it lands on the throwaway branch, not the bin, since variant components and the switcher left in the main branch rot fast and confuse the next reader.
+
+Done when the winner is folded in properly, the losers + switcher are out of main and on the throwaway branch, and the answer (which variant, why) is recorded.
 
 ## Anti-patterns
 

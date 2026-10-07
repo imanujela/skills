@@ -26,6 +26,8 @@ Only include these when they add genuine value. Most ADRs won't need them.
 
 Scan `docs/adr/` for the highest existing number and increment by one.
 
+Done when the new file's number is max(existing)+1 — verified by actually listing the directory, not guessed — and the slug matches the title.
+
 ## When to offer an ADR
 
 All three of these must be true:
@@ -45,3 +47,19 @@ If a decision is easy to reverse, skip it: you'll just reverse it. If it's not s
 - **Deliberate deviations from the obvious path.** "We're using manual SQL instead of an ORM because X." Anything where a reasonable reader would assume the opposite. These stop the next engineer from "fixing" something that was deliberate.
 - **Constraints not visible in the code.** "We can't use AWS because of compliance requirements." "Response times must be under 200ms because of the partner API contract."
 - **Rejected alternatives when the rejection is non-obvious.** If you considered GraphQL and picked REST for subtle reasons, record it; otherwise someone will suggest GraphQL again in six months.
+
+## Verification
+
+An ADR written under this format was correct when:
+
+- The file is at `docs/adr/<NNNN>-<slug>.md` with the next sequential number (directory was listed to confirm).
+- The body is 1–3 sentences covering context, decision, and why — no boilerplate sections unless one of the three optional sections earned its place.
+- The decision passes all three tests; the offer that produced it cited how.
+- A future reader who knows nothing about the session can reconstruct the *why* from the ADR alone.
+
+## Pitfalls
+
+- **Number collisions.** Two ADRs written from parallel sessions with the same number; always list the directory at write time.
+- **Boilerplate bloat.** Filling in Status/Considered Options/Consequences on every ADR until writing one takes a meeting; the optional sections are opt-in.
+- **Diary entries.** Recording reversible or obvious decisions ("we added a helper function") until the log is noise; all three tests or nothing.
+- **Recording the what, not the why.** "We use Postgres" without the reason fails the only reader the ADR exists for.

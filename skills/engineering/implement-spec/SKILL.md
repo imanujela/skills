@@ -1,6 +1,6 @@
 ---
 name: implement-spec
-description: "Implement the result of /to-spec and /to-tickets in code."
+description: "Implement the result of /to-spec and /to-tickets in code, orchestrating implementer subagents across the ticket graph's frontier onto one integration branch."
 disable-model-invocation: true
 ---
 
@@ -38,3 +38,18 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 8. If a draft PR exists, mark it ready for review. Otherwise, resolve each ticket the way the issue tracker closes work, and report the integration branch.
 
 9. Clean up all **implementer subagent** worktrees.
+
+## Done when
+
+- [ ] Every ticket is resolved on the integration branch, and its **blocking edges** were the only ordering constraint honoured (the frontier was worked in parallel, not serially).
+- [ ] No ticket was implemented before all its blockers merged to the integration branch.
+- [ ] The `code-review` skill ran over the integration branch and every raised issue was fixed in the single follow-up implementer.
+- [ ] Each implementer confirmed its worktree was based on the integration branch and merged the integration tip back in before reporting done.
+- [ ] All implementer worktrees are cleaned up; the integration branch (and any draft PR) is left marked ready or resolved per step 8.
+
+## Pitfalls
+
+- **Treating the tickets as a step list.** The task graph is there to expose parallelism; working top-to-bottom ignores the frontier and halves the concurrency this skill exists for.
+- **Implementing before blockers merge.** An implementer that started against a stale integration tip produces conflicts at merge time; the worktree-reset check exists to prevent exactly this.
+- **Duplicating context.** Re-sending spec details that are already reachable by pointer bloats subagent prompts and lets the copies drift; point, don't paste.
+- **Running implementers sequentially.** Background-first is the rule; a stalled frontier defeats the purpose.

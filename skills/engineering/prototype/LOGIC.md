@@ -19,6 +19,8 @@ If the question is "what should this look like," this is the wrong branch. Use [
 
 Before writing code, write down what state model and what question you're prototyping. One paragraph, at the top of the demo (in a visible intro, not just a comment). A logic prototype that answers the wrong question is pure waste, so make the question explicit so it can be checked later, whether the user is watching now or returning to it AFK.
 
+Done when the question and the state model it targets are written as a visible intro paragraph before any logic exists.
+
 ### 2. Isolate the logic in a portable module
 
 Put the actual logic (the bit that's answering the question) in a single `<script>` block written as a small, pure module that could be lifted out and dropped into the real codebase later. The page around it is throwaway; this module isn't.
@@ -31,6 +33,8 @@ The right shape depends on the question:
 - **A class or module with a clear method surface** when the logic genuinely owns ongoing internal state.
 
 Pick whichever shape best fits the question being asked, *not* whichever is easiest to wire to a page. Keep it pure: no DOM, no `document`, no button handlers reaching inside it. The page calls into it; nothing flows the other direction. This is what makes the prototype useful past its own lifetime: once the question's answered, the validated reducer / machine / function set lifts into the real module on its own.
+
+Done when the logic module contains zero `document`/DOM references and can be read (and later lifted) on its own.
 
 ### 3. Build the shareable HTML file
 
@@ -49,13 +53,19 @@ Choose scenarios that demonstrate the awkward cases, the ones hard to reason abo
 
 Keep it beautiful but restrained: clean typography, generous spacing, one accent colour. No animations, no gimmicks: nothing that competes with the state and the buttons.
 
+Done when the file opens by double-click, the state panel re-renders after every click, at least one walkthrough covers an illegal or edge case, and every label reads as the business, not the reducer.
+
 ### 4. Hand it over
 
 Send them the file, or open it for them. They'll click through the walkthroughs and free-play whenever they get to it; the interesting moments are when they say "wait, that shouldn't be possible" or "huh, I assumed X would be different"; those are the bugs in the _idea_, which is the whole point. If they want new actions or a new scenario, add them. Prototypes evolve.
 
+Done when the demo has been driven (by the user or, if AFK, through the canned walkthroughs) and at least one surprise has surfaced or been explicitly ruled out.
+
 ### 5. Capture the answer and the prototype
 
 Once the prototype has answered its question, capture the answer, then capture the prototype the way the [SKILL](SKILL.md) describes. The logic-specific mapping: the validated reducer / machine / function set lifts into the real module (the decision, absorbed); the HTML shell rides along to the throwaway branch that keeps the prototype as a primary source, and being one self-contained file, it stays trivially re-runnable there.
+
+Done when the decision is folded into the real module, the shell + module are committed on the throwaway branch, and a pointer to that branch sits on the implementation issue.
 
 ## Anti-patterns
 

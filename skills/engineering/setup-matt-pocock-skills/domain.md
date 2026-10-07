@@ -1,6 +1,6 @@
 # Domain Docs
 
-How the engineering skills should consume this repo's domain documentation when exploring the codebase.
+How the engineering skills should consume this repo's domain documentation when exploring the codebase. Written by `/setup-matt-pocock-skills`; read by every skill that names domain concepts.
 
 ## Before exploring, read these
 
@@ -49,3 +49,5 @@ If the concept you need isn't in the glossary yet, that's a signal: either you'r
 If your output contradicts an existing ADR, surface it explicitly rather than silently overriding:
 
 > _Contradicts ADR-0007 (event-sourced orders), but worth reopening because…_
+
+Note the tension to the user in the same breath you propose the conflicting design; don't bury it in a footnote or save it for later.

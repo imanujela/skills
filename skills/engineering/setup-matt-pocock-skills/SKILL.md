@@ -12,13 +12,13 @@ Scaffold the per-repo configuration that the engineering skills assume:
 - **Triage labels**: the strings used for the five canonical triage roles
 - **Domain docs**: where `GLOSSARY.md` and ADRs live, and the consumer rules for reading them
 
-This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
+This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write. It is also **idempotent**: re-running it on an already-configured repo should update what changed and leave the rest alone — never duplicate the `## Agent skills` block or recreate labels that exist.
 
 ## Process
 
 ### 1. Explore
 
-Look at the current repo to understand its starting state. Read whatever exists; don't assume:
+Look at the current repo to understand its starting state. Read whatever exists; don't assume. *Done when:* every item below is checked for, and you can state the repo's current configuration (or its absence) for each axis.
 
 - `git remote -v` and `.git/config`: is this a GitHub repo? Which one?
 - `AGENTS.md` and `CLAUDE.md` at the repo root: does either exist? Is there already an `## Agent skills` section in either?
@@ -31,7 +31,7 @@ Look at the current repo to understand its starting state. Read whatever exists;
 
 ### 2. Present findings and ask
 
-Summarise what's present and what's missing. Then take the sections in order. One section, one answer, then the next.
+Summarise what's present and what's missing. Then take the sections in order. One section, one answer, then the next. *Done when:* each section you run has a decision recorded (or was explicitly skipped), and each decision is confirmed by the user before you move on.
 
 Lead each section with the recommended answer so the user can accept it in a word. Give a one-line explainer only when the choice genuinely branches; skip the section entirely when exploration already settled it (Section B when `triage` isn't installed, Section C when there's no monorepo).
 
@@ -67,7 +67,7 @@ Show the user a draft of:
 - The `## Agent skills` block to add to whichever of `CLAUDE.md` / `AGENTS.md` is being edited (see step 4 for selection rules)
 - The contents of `docs/agents/issue-tracker.md`, `docs/agents/domain.md`, and `docs/agents/triage-labels.md` (the last only when `triage` is installed)
 
-Let them edit before writing.
+Let them edit before writing. *Done when:* the user has seen and approved every file you are about to write or modify.
 
 ### 4. Write
 
@@ -101,7 +101,7 @@ The block:
 
 Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.md`, only when `triage` is installed and Section B ran. When it isn't, both are omitted.
 
-When Section B ran on GitHub or GitLab, create each configured label the tracker lacks (`gh label create` / `glab label create`).
+When Section B ran on GitHub or GitLab, create each configured label the tracker lacks (`gh label create` / `glab label create`). *Done when:* every configured label exists on the tracker, and none was re-created if it already existed.
 
 Then write the docs files using the seed templates in this skill folder as a starting point:
 
@@ -116,3 +116,16 @@ For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch us
 ### 5. Done
 
 Tell the user the setup is complete and which engineering skills will now read from these files. Mention they can edit `docs/agents/*.md` directly later; re-running this skill is only necessary if they want to switch issue trackers or restart from scratch.
+
+## Verification
+
+- The `## Agent skills` block appears exactly once in the chosen file — never duplicated across re-runs.
+- `docs/agents/issue-tracker.md` matches the user's chosen tracker (or the "other" prose they described).
+- Only the configured labels exist on the tracker; no stray labels were created.
+- The block and docs match what the user approved in step 3 — nothing was added silently after approval.
+
+## Pitfalls
+
+- **Duplicating the block**: a re-run that appends a second `## Agent skills` section. Update in place instead.
+- **Creating `AGENTS.md` beside `CLAUDE.md`**: breaks the single-steering-file invariant. Edit whichever already exists, or ask.
+- **Unprompted Section C**: offering multi-context with no monorepo signals, or single-context when the repo is genuinely multi-package. Exploration decides, not the user's preference.

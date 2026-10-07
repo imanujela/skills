@@ -1,3 +1,10 @@
+# agents/openai.yaml — how the 'setup-pre-commit' skill is surfaced to
+# OpenAI-compatible agent UIs. Interface manifest only; does not affect behaviour.
+#
+#   interface.display_name      — human-readable name shown in the UI
+#   interface.short_description — one-line tooltip/description
+#
+# No `policy` block is set, matching the skill's model-invocable nature.
 interface:
   display_name: "Setup Pre-Commit"
   short_description: "Add pre-commit quality checks"

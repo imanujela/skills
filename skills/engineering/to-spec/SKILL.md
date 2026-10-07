@@ -10,13 +10,13 @@ The issue tracker and triage label vocabulary should have been provided to you. 
 
 ## Process
 
-1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching.
+1. **Explore the repo** to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching. *Done when:* you can describe, in the project's own terms, the current code that this feature touches.
 
-2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one.
+2. **Sketch out the seams** at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one.
 
-Check with the user that these seams match their expectations.
+Check with the user that these seams match their expectations. *Done when:* the user has confirmed the proposed seams; you don't write the spec's Testing Decisions against seams you haven't agreed.
 
-3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+3. **Write the spec** using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage. *Done when:* the spec exists at its tracker path/URL, the `ready-for-agent` label is applied, and the user has been told where it landed.
 
 <spec-template>
 
@@ -73,3 +73,17 @@ A description of the things that are out of scope for this spec.
 Any further notes about the feature.
 
 </spec-template>
+
+## Verification
+
+- **No interview.** The spec is synthesized entirely from the conversation + codebase; you asked no clarifying questions to fill it.
+- **Vocabulary.** User stories and decisions use the project's glossary terms, not synonyms.
+- **Seams agreed.** The seams in Testing Decisions are the ones the user confirmed in step 2.
+- **Durable decisions.** No file paths or code snippets unless a prototype snippet encodes a decision more precisely than prose.
+- **Published.** The spec is on the tracker with `ready-for-agent`; the location is named in your reply.
+
+## Pitfalls
+
+- **Specifying file layout**: naming files and folders that will drift the moment implementation starts. Describe behavior and contracts; leave structure to the implementer.
+- **Guessing the seams**: proposing seams in Testing Decisions that you didn't confirm with the user in step 2.
+- **Interview by inertia**: asking the user to re-explain something already settled in the conversation, instead of synthesizing it.

@@ -1,3 +1,10 @@
+# Block intent: Codex agent-interface config for this skill. Maps the skill to a
+# display name and one-line description shown in the Codex UI, plus the policy
+# keys below. The keys are the entire schema; adding keys does nothing. Edit only
+# when renaming the skill or re-wording the UI blurb. Companion: SKILL.md here.
+# Usage: leave in place; Codex reads it automatically. allow_implicit_invocation
+# governs whether the model may invoke the skill without the user naming it.
+
 interface:
   display_name: "Setup Matt Pocock Skills"
   short_description: "Configure a repo for the skills"

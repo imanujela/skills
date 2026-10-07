@@ -22,6 +22,8 @@ Capture the diff command once: `git diff <fixed-point>...HEAD` (three-dot, so th
 
 Before going further, confirm the fixed point resolves (`git rev-parse <fixed-point>`) and the diff is non-empty. A bad ref or empty diff should fail here, not inside two parallel sub-agents.
 
+**Done when**: `git rev-parse` succeeds, the diff output is non-empty, and both commands plus the commit list are written down once for reuse in both sub-agent prompts.
+
 ### 2. Identify the spec source
 
 Look for the originating spec, in this order:
@@ -30,6 +32,8 @@ Look for the originating spec, in this order:
 2. A path the user passed as an argument.
 3. A spec file under `docs/`, `specs/`, or `.scratch/` matching the branch name or feature.
 4. If nothing is found, ask the user where the spec is. If they say there isn't one, the **Spec** sub-agent will skip and report "no spec available".
+
+**Done when**: a spec source is named (issue ID, path, or "none — user confirmed"), or the user has been asked and answered.
 
 ### 3. Identify the standards sources
 
@@ -55,6 +59,8 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 - **Middle Man**: a class or function that mostly just delegates onward. → cut it, call the real target direct.
 - **Refused Bequest**: a subclass or implementer that ignores or overrides most of what it inherits. → drop the inheritance, use composition.
 
+**Done when**: the list of standards-source files is enumerated (empty is a valid result — the baseline still applies) and each listed file was actually read, not assumed.
+
 ### 4. Spawn both sub-agents in parallel
 
 Issue both sub-agent calls together, in the foreground, and aggregate the reports they return.
@@ -73,11 +79,15 @@ Issue both sub-agent calls together, in the foreground, and aggregate the report
 
 If the spec is missing, skip the Spec sub-agent and note this in the final report.
 
+**Done when**: both calls were issued in the same message (not sequentially), each prompt is self-contained (the sub-agent needs no further repo access to act), and both reports came back under 400 words each.
+
 ### 5. Aggregate
 
 Present the two reports under `## Standards` and `## Spec` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings, because the two axes are deliberately separate (see _Why two axes_).
 
 End with a one-line summary: total findings per axis, and the worst issue _within each axis_ (if any). Don't pick a single winner across axes: that's the reranking the separation exists to prevent.
+
+**Done when**: both headings are present (or `## Spec` says "no spec available"), the one-line per-axis summary exists, and no finding was moved between axes.
 
 ## Why two axes
 
@@ -87,3 +97,21 @@ A change can pass one axis and fail the other:
 - Code that does exactly what the issue asked but breaks the project's conventions → **Spec pass, Standards fail.**
 
 Reporting them separately stops one axis from masking the other.
+
+## Verification
+
+The review ran correctly when:
+
+- The fixed point was validated (`rev-parse` + non-empty diff) before any sub-agent spawned.
+- Both sub-agent reports appear under separate `## Standards` / `## Spec` headings, unmerged and unreranked.
+- Every Spec finding quotes the spec line it came from; every hard Standards violation cites the standard's file and rule.
+- The final line states a finding count and a worst issue per axis — two numbers, not one blended score.
+- If the Spec axis was skipped, the report says why.
+
+## Pitfalls
+
+- **Two-dot diff.** `git diff <ref>..HEAD` compares against the ref tip, not the merge-base, and drags unrelated main-branch commits into the review. Three-dot, always.
+- **Summarising the smell baseline instead of pasting it.** The sub-agent has no other access to it; a paraphrased baseline silently drops smells.
+- **Reranking across axes.** Picking "the worst issue overall" collapses exactly the separation this skill exists to preserve.
+- **Sequential sub-agents.** Spawning Standards first, then Spec, halves the point: the isolation is from running them in parallel.
+- **Empty-diff review.** Reviewing a fixed point with no commits between it and HEAD produces a vacuous "all clean"; fail at step 1 instead.

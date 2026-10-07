@@ -1,6 +1,6 @@
 ---
 name: pr
-description: "Use when writing a PR body."
+description: "Use when writing a PR body. Reach for this whenever a PR is being opened: it shapes the body into the smallest visual that shows the change, before/after evidence it works, and an explicit one-way or two-way door call."
 metadata:
   credits:
     skill: show-me
@@ -168,3 +168,23 @@ Execution-based evidence is A-tier. Test results, console output. Show the exact
 Describe whether it's a one-way or two-way door. You can walk back through two-way doors, but not one-way doors. A PR that is cheap to roll back is lower risk. Changes that involve destructive actions or hard-to-reverse decisions are one-way doors.
 
 The blast radius is the potential impact or scope of the changes introduced by this PR. Consider all possibilities. Examples are layout shift, breakages for consumers, mobile responsiveness, etc.
+
+## Done when
+
+- [ ] **Summary** holds the smallest visual that makes the change readable, placed next to the text it supports — one or two visuals, not the whole menu.
+- [ ] **Evidence** shows a before *and* an after (S-tier screenshot for visual changes, A-tier test/console output otherwise).
+- [ ] **Merge Danger** names the door as one-way or two-way, and gives a one-word blast radius.
+- [ ] Prose is brief, in `GLOSSARY.md` domain language, with no preamble.
+- [ ] Every visual included earns its place; anything that doesn't answer the current question is cut.
+
+## Verification
+
+The PR body is right when a reviewer can state the change's shape, whether it works, and the risk of merging from the body alone — without opening a single file.
+
+## Pitfalls
+
+- **The summary dump.** Repeating the whole diff as text; one targeted visual communicates more than a paragraph of what-changed.
+- **Evidence without a before.** An "after" screenshot with nothing to contrast it against proves nothing; both sides are required.
+- **Hiding the blast radius.** Leaving **Blast Radius** blank when the change touches consumers or layout, which is exactly the risk a reviewer needs flagged.
+- **Skipping the door call.** Describing what changed without saying whether it's reversible; the one/two-way call is what the merge decision rides on.
+- **Ignoring the domain.** Writing in implementation terms ("refactored HttpClient") when the glossary has a word for the concept ("the transport module").

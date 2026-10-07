@@ -20,3 +20,15 @@ The invocation cut of splitting (the sequence cut lives in `SKILL.md`): split of
 ## Router skills
 
 When user-invoked skills multiply past what you can remember, that piled-up cognitive load is cured by a **router skill**: one user-invoked skill that names the others and when to reach for each, so the human has one skill to remember instead of many. It can only hint, never fire them: user-invoked skills have no description, so nothing but the human can reach them.
+
+## Verification
+
+- The invocation choice is deliberate: model-invoked only where the agent or another skill must reach it; everything else user-invoked.
+- A model-invoked description carries distinct trigger branches; a user-invoked description is a one-line human summary.
+- Shared reference lives where it can actually be reached: in a model-invoked skill, or in an external file, never in a user-invoked skill.
+
+## Pitfalls
+
+- **Paying context load for discoverability nobody needs**: a model-invoked skill that only ever fires by hand should be user-invoked.
+- **A user-invoked description written like a trigger list**, which the agent can't act on and the human doesn't need.
+- **Router skill that overpromises**: it can only name user-invoked skills, never fire them — don't let it imply otherwise.

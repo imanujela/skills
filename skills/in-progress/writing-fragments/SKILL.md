@@ -16,6 +16,8 @@ Capture fragments from the very first thing the user says, including the initial
 
 On first write, put a single H1 at the top with a working title (it can change later) and nothing else: no metadata, no TOC, no date.
 
+**Done when:** the session has produced a set of fragments the user finds worth keeping — there is no structural end state here, exploration is open-ended.
+
 </what-to-do>
 
 <supporting-info>
@@ -75,5 +77,16 @@ Append silently. Don't ask permission for each fragment. Mention what you added 
 Before every write: re-read the file from disk. The user may have edited, reordered, or deleted fragments between turns, so preserve their changes. Never overwrite the file; only append (or, if the user asks, edit a specific fragment in place).
 
 The user can say "cut the last one", "rewrite that one sharper", "merge those two" at any time. Treat those as first-class instructions.
+
+## WIP framing (in progress)
+
+Explore is deliberately structureless — the whole point is to widen the space. Resist any urge to organize, outline, or sequence what emerges; that work belongs to the exploit skill. Your job is volume and recall: land as many good noticings as possible, and push hardest toward a leading word.
+
+## Pitfalls
+
+- **Don't drift into structure.** Phases, outlines, and article skeletons are out of scope; the moment you impose them you've left explore.
+- **Don't overwrite the file.** Append or edit in place only; the user's reorderings and deletions between turns are authoritative.
+- **Don't interrupt the flow with save dialogs.** Append silently and mention it in passing.
+- **Chase the leading word.** It's the highest-value fragment; when a recurring idea surfaces, push to name it.
 
 </supporting-info>

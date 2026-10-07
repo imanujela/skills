@@ -1,6 +1,6 @@
 ---
 name: ask-matt
-description: Ask which skill or flow fits your situation. A router over the skills in this repo.
+description: Ask which skill or flow fits your situation. Use when the user asks which skill to use, which command fits their task, how skills relate, or where to start (an idea, a bug, a pile of issues, a spare moment) — in short, anything that is really a routing question over this repo's skills.
 disable-model-invocation: true
 ---
 
@@ -95,3 +95,29 @@ Off the main flow entirely.
 ## Precondition
 
 **`/setup-matt-pocock-skills`**: run before your first engineering flow to configure the issue tracker, triage labels, and doc layout the other skills assume. Custom issue trackers also work.
+
+## Completion criteria
+
+Each routing recommendation is done when:
+
+- [ ] **Named skill + trigger stated**: the answer names one primary skill (or flow) and the specific situation detail that selects it ("multi-session" → `/to-spec`; "not in a repo" → `/grill-me`). A bare skill name without the selecting fact is not an answer.
+- [ ] **SKILL.md read before describing**: any skill you summarise, its SKILL.md has been read this session. No recommendations from this map's summaries alone.
+- [ ] **Branch question answered explicitly**: at each numbered branch (runnable question? multi-session?), the deciding fact about the user's situation is stated, not assumed.
+- [ ] **Precondition checked**: before recommending a first engineering flow, confirm `/setup-matt-pocock-skills` has run (or flag it as the first step).
+
+## Verification
+
+The routing session ran correctly when:
+
+- The user can state the next skill to run and why in one sentence.
+- Every recommended skill's SKILL.md was opened before its description was given (spot-checkable: the summary matches the file).
+- Any branch taken (prototype detour, single- vs multi-session, on-ramp vs main flow) cites a fact about the user's situation that triggered it.
+- If the flow is a first run, `/setup-matt-pocock-skills` was mentioned.
+
+## Pitfalls
+
+- **Routing from memory.** Summarising a skill you haven't opened this session and drifting from what it actually does. The map is for orientation; the file is the source.
+- **Triaging your own tickets.** `/to-tickets` output is already agent-ready; sending it through `/triage` doubles work for nothing.
+- **Compacting mid-phase.** The phase-boundary decision belongs *at* a boundary. Compact mid-grilling and the spec loses the reasoning it was built on.
+- **Wayfinder → `/implement` directly.** Skipping the `/to-spec` collapse throws away the linked decision detail the map produced.
+- **Forcing one skill to fit.** If the situation is "spare moment, no feature ask", the answer is `/improve-codebase-architecture`, not a stretched main-flow step.

@@ -1,6 +1,6 @@
 # Issue tracker: Local Markdown
 
-Issues and specs for this repo live as markdown files in `.scratch/`.
+Issues and specs for this repo live as markdown files in `.scratch/`. Written by `/setup-matt-pocock-skills`; read by `to-tickets`, `triage`, `to-spec`, and `wayfinder`.
 
 ## Conventions
 

@@ -108,7 +108,7 @@ Two modes. Either way, **never resolve more than one ticket per session**, with 
 
 User invokes with a loose idea.
 
-1. **Name the destination.** Call the Skill tool twice, for "grilling" and "domain-modeling", to pin down what this map is finding its way to: the spec, decision, or change. The destination fixes the scope, so it's settled first.
+1. **Name the destination.** Call the Skill tool twice, for "grilling" and "domain-modeling", to pin down what this map is finding its way to: the spec, decision, or change. The destination fixes the scope, so it's settled first. *Done when:* you can state the destination in a line or two that a session would orient to before choosing a ticket.
 2. **Map the frontier.** Grill again, **breadth-first** this time: fan out across the whole space rather than deep on any one thread, surfacing the open decisions and the first steps takeable now. **If this surfaces no fog** (the way to the destination is already clear, the whole journey small enough for one session), you don't need a map. Stop and ask the user how they'd like to proceed.
 3. **Create the map** (label `wayfinder:map`): Destination and Notes filled in, Decisions-so-far empty, the fog sketched into **Not yet specified**.
 4. **Create the tickets you can specify now** as child issues of the map, then wire blocking edges in a **second pass** (issues need ids before they can reference each other). Write cross-references in that pass too, with real ids: a placeholder `#<n>` auto-links to an unrelated issue. Wiring sorts them into the frontier and the blocked; everything you can't yet specify stays in the fog: the **Not yet specified** section.
@@ -126,3 +126,20 @@ User invokes with a map (URL or number). A ticket is **optional**: without one, 
 5. Add newly-surfaced tickets (create-then-wire); graduate any fog the answer has made specifiable, clearing each graduated patch from **Not yet specified** so it lives only as its new ticket. If the answer reveals that a ticket (this one or another) sits beyond the destination, **rule it out of scope** rather than resolving it on the route. If the decision invalidates other parts of the map, update or delete those tickets.
 
 The user may run unblocked tickets in parallel, so expect other sessions to be editing the tracker concurrently.
+
+## Verification
+
+- One ticket resolved per session (research tickets excepted); you never resolved a second ticket just because it was easy.
+- The ticket you worked was **claimed** (assigned to you) before any work, so a parallel session can't collide.
+- Resolution is recorded as a resolution comment + close + a Decisions-so-far pointer; the answer lives in the ticket, not re-stated in the map.
+- Newly-surfaced tickets were created before wiring, so their blocking edges and cross-references use real ids, never `#<n>` placeholders.
+- Anything that graduated out of **Not yet specified** was cleared from that section; anything ruled out of scope was closed and listed in **Out of scope**, not Decisions so far.
+
+## Pitfalls
+
+- **Doing instead of deciding**: resolving a ticket by executing the work when the effort's Notes didn't grant that. The pull to do is the signal the map is nearly done; hand off instead.
+- **Bare-id narration**: writing `#42, #43, #44` where a human reads. Use names; wrap ids in links.
+- **Resolving without claiming**: starting work before assigning the ticket, colliding with a parallel session. Claim first, always.
+- **Placeholder links at wiring time**: referencing `#<n>` because ids weren't ready, silently auto-linking an unrelated issue. Create-then-wire in two passes.
+- **Pre-slicing the fog**: splitting a coarse not-yet-specifiable patch into ticket-sized pieces too early. Wait until a resolution sharpens it.
+- **Second ticket in one session**: burning the "one ticket per session" rule on a follow-on that should wait for its own session.

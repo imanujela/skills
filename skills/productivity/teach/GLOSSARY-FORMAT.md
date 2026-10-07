@@ -27,9 +27,21 @@ _Avoid_: Effort score, intensity rating
 ## Rules
 
 - **Add a term only when the user understands it.** The glossary is a record of compressed knowledge, not a dictionary the user reads to learn. If the user has just been introduced to a concept, wait until they can use it correctly before promoting it here.
-- **Be opinionated.** When several words exist for the same concept, pick the best one and list the rest as aliases to avoid. This is how language compresses.
+- **Be opinionated.** When several words exist for the same concept, pick the best one and list the rest under `_Avoid_`. This is how language compresses.
 - **Keep definitions tight.** One or two sentences. Define what the term IS, not what it does or how to do it.
 - **Use the glossary's own terms inside definitions.** Once a term is in the glossary, prefer it everywhere, including inside other definitions. This is what makes complex terms easier to grasp later.
 - **Group under subheadings** when natural clusters emerge (e.g. `## Anatomy`, `## Programming`). A flat list is fine when terms cohere.
 - **Flag ambiguities explicitly.** If a term is used loosely in the wider field, note the resolution: "In this workspace, 'set' always means a working set; warm-ups are tracked separately."
 - **Revise as understanding deepens.** A definition the user wrote in week one may be wrong by week six. Update in place; do not leave stale entries.
+
+## Verification
+
+- Every lesson, exercise, and learning record uses the glossary's chosen terms, not the `_Avoid_` aliases.
+- Definitions stay at one to two sentences, define what a term _is_, and reuse already-glossed terms.
+- Ambiguous terms carry an explicit in-workspace resolution.
+
+## Pitfalls
+
+- **Using the glossary as a teaching dictionary** the user reads front to back, instead of recording only what the user already understands.
+- **A sprawling, unordered list** with no subheadings once terms no longer cohere.
+- **Stale entries** that contradict a definition the user's understanding has since outgrown.

@@ -25,6 +25,8 @@ If the user did not say where to save the article, ask once and remember the pat
 5. **Append to the article file as you go.** Don't batch. Write each agreed paragraph or block immediately so the user can see the article taking shape.
 6. **Loop step 4 until the article is done.** The user decides when it's done.
 
+**Done when:** the user decides the article is done; you have not batched writes, and the raw material file is untouched.
+
 ## Grounding
 
 Every **concept** has to be **grounded** before a block can lean on it: the reader either walked in knowing it or met it in an earlier block. A block that reaches for an ungrounded concept loses the reader. The unit is the concept, not the word for it: a block can lean on an idea the reader lacks even with no jargon in sight. Where a concept has a name (a **term**), grounding it means landing the idea and the term together.
@@ -75,5 +77,16 @@ Append to the article file as each block is agreed. Re-read the file from disk b
 - Mining for new fragments that aren't in the pile (handle gaps as in "Pulling from the pile").
 - Editing the raw material file.
 - Publishing, formatting for a specific platform, or adding frontmatter the user didn't ask for.
+
+## WIP framing (in progress)
+
+The article grows one argued block at a time — the discipline is never batching and always grounding. The raw material file stays untouched, and every format choice is made out loud with the user, not silently.
+
+## Pitfalls
+
+- **Don't batch writes.** Writing several paragraphs at once robs the user of seeing the article take shape and invites drift from the opening's promise.
+- **Never edit the raw material file.** It is read-only to this skill.
+- **A block leaning on an ungrounded concept is the one forbidden move.** Name the gap and ground it first.
+- **Silent format choices.** Every list/table/callout choice should be argued with the user, not decided behind the scenes.
 
 </supporting-info>

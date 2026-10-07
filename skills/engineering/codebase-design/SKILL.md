@@ -1,6 +1,6 @@
 ---
 name: codebase-design
-description: Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code more testable or AI-navigable, or when another skill needs the deep-module vocabulary.
+description: Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code more testable or AI-navigable, judge whether a proposed refactor deepens or just moves complexity, or when another skill needs the deep-module vocabulary.
 ---
 
 # Codebase Design
@@ -57,6 +57,8 @@ When designing an interface, ask:
 - Can I simplify the parameters?
 - Can I hide more complexity inside?
 
+Each question is done when it has been answered against the concrete design with a yes, a no, or a named trade-off — not left as an open "maybe later".
+
 ## Principles
 
 - **Depth is a property of the interface, not the implementation.** A deep module can be internally composed of small, mockable, swappable parts; they just aren't part of the interface. A module can have **internal seams** (private to its implementation, used by its own tests) as well as the **external seam** at its interface.
@@ -94,6 +96,8 @@ Good interfaces make testing natural:
 
 3. **Small surface area.** Fewer methods = fewer tests needed. Fewer params = simpler test setup.
 
+A design passes this section when every dependency is a parameter or constructor argument (grep the module for direct constructions of I/O types: zero hits), pure logic returns values instead of mutating inputs, and a caller's test needs no more setup than the interface's parameters.
+
 ## Relationships
 
 - A **Module** has exactly one **Interface** (the surface it presents to callers and tests).
@@ -112,3 +116,20 @@ Good interfaces make testing natural:
 
 - **Deepening a cluster given its dependencies**, see [DEEPENING.md](DEEPENING.md): dependency categories, seam discipline, and replace-don't-layer testing.
 - **Exploring alternative interfaces**, see [DESIGN-IT-TWICE.md](DESIGN-IT-TWICE.md): spin up parallel sub-agents to design the interface several radically different ways, then compare on depth, locality, and seam placement.
+
+## Verification
+
+A design session using this vocabulary ran correctly when:
+
+- Every architectural noun in the output is one of the eight glossary terms; no "component", "service", "boundary", or "API" slipped in for a module, interface, or seam.
+- Each depth claim is backed by a stated mechanism (deletion test result, adapter count, or caller count), not an adjective.
+- Any proposed seam names its second adapter, or is explicitly labelled hypothetical and left un-built.
+- Testability claims point at the interface ("test through these 2 methods"), never past it.
+
+## Pitfalls
+
+- **Depth as line-count ratio.** Padding the implementation to look deep, or calling a 3-line wrapper shallow without running the deletion test. Judge by behaviour behind the interface.
+- **The hypothetical seam.** Extracting an interface with one adapter "for later". That's indirection, not a seam; wait for the second adapter to actually exist.
+- **Testing past the interface.** Reaching into internals or mocking internal seams in tests is the smell that the module is the wrong shape; fix the shape, not the test.
+- **Vocabulary drift.** Saying "boundary" for seam or "service" for module re-opens every ambiguity the glossary closed. Correct the term in place, in the same sentence.
+- **Treating every extraction as deepening.** Moving code without shrinking any interface just relocates the shallowness. The check: does any caller now learn less than before?

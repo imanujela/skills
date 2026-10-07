@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: Build a throwaway prototype to answer a design question. Use when the user wants to sanity-check whether a state model or logic feels right, or explore what a UI should look like.
+description: Build a throwaway prototype to answer a design question. Use when the user wants to sanity-check whether a state model or logic feels right, or explore what a UI should look like, before committing to an implementation.
 ---
 
 # Prototype
@@ -24,3 +24,22 @@ The two branches produce very different artifacts, so getting this wrong wastes 
 4. **Skip the polish.** No tests, no error handling beyond what makes the prototype _runnable_, no abstractions. The point is to learn something fast.
 5. **Surface the state.** After every action (logic) or on every variant switch (UI), print or render the full relevant state so the user can see what changed.
 6. **Capture it when done.** Fold any validated decision into the real code, then capture the prototype itself as a **primary source**: commit it to a throwaway branch, out of main, and leave a context pointer to that branch on the implementation issue. Capture the answer too (the verdict and the question it settled) in the issue or a commit. The main branch keeps only the validated decision.
+
+Each rule is satisfied when the artifact respects it end to end: a casual reader can tell it's a prototype, it starts with one command, its state is in memory, it has no testing ceremony, it renders state after every action, and its answer + itself are captured on the throwaway branch when done.
+
+## Verification
+
+The prototype answered its question when:
+
+- The branch matches the question asked (logic vs UI was picked for a real reason, not by accident).
+- The user actually drove it (or, if AFK, the walkthroughs/variants cover the awkward cases on their own).
+- The validated decision is folded into the real code, the prototype is on a throwaway branch out of main, and a pointer to that branch sits on the implementation issue.
+- Main contains only the validated decision — no prototype code, no switcher, no demo shell.
+
+## Pitfalls
+
+- **Wrong branch.** Building a shareable HTML state-demo for a "what should it look like" question, or three UI variants for a state-model question. The question decides the shape.
+- **Prototype creep.** Adding tests, error handling, or generality until it's no longer throwaway — at which point it's real code that hasn't been built properly.
+- **Persistence by accident.** Connecting to the real database "just to see": persistence is the hypothesis under test, not a dependency.
+- **Destroying the prototype.** Deleting it outright loses the primary source; the throwaway branch is where it documents the decision.
+- **Leaking the prototype into main.** A stray demo route or switcher pinned by NODE_ENV guards still ships the prototype's assumptions to production.

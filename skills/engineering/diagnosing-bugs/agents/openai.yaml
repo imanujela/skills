@@ -1,3 +1,16 @@
+# Agent interface config for the 'Diagnosing Bugs' skill.
+# Purpose: declares how this skill appears to the model/agent runtime
+#   interface.display_name      -> human-facing name shown in skill listings
+#   interface.short_description -> one-line pitch shown next to the name
+#   policy.allow_implicit_invocation -> false = the model may not auto-trigger
+#        this skill; it must be invoked explicitly by the user (a slash-style skill).
+# Conventions: keep display_name human, short_description under ~50 chars,
+# and never set allow_implicit_invocation to true unless the skill is safe to
+# fire on its own (side-effect-free and cheap to run).
 interface:
   display_name: "Diagnosing Bugs"
   short_description: "Diagnose hard bugs and regressions"
+# Explicit (commented) policy block: this skill currently defaults to
+# implicit-invocation-allowed; uncomment to lock it to explicit-only.
+# policy:
+#   allow_implicit_invocation: false

@@ -53,3 +53,24 @@ This is why question 1 comes first. You only pay the lossiness when staying cost
 ## These are judgement calls
 
 The questions are not objective: each has taste in it, and the same boundary can go two ways on two days. The value is in asking them **in order**, at the boundary rather than in the middle of the work.
+
+## Completion criteria
+
+A boundary decision is made correctly when:
+
+- [ ] The decision was made **at** the boundary, not mid-phase (nothing was compacted/cleared with work in flight).
+- [ ] The tree was walked **top to bottom** and the answer at each of the five questions is stateable ("no, next phase needs the reasoning verbatim", etc.), not skipped.
+- [ ] The chosen option is the **first yes** — no more expensive option was picked while a cheaper one above it applied.
+- [ ] If `/compact` was chosen, it was passed an instruction naming what the next phase needs.
+
+## Verification
+
+The decision ran correctly when the transcript shows: five question answers in order, the selected option, and (for `/clear` or `/compact`) a check that nothing in the session is a primary source for what's next.
+
+## Pitfalls
+
+- **Starting at `/compact`.** It's the bottom of the tree; reaching it first produces lossy summaries of context that should have just continued.
+- **Deciding mid-phase.** Compacting during the grilling to "make room" loses the thread the spec is being built from.
+- **`/clear` on load-bearing context.** Clearing reasoning the next phase needs is one-way; no diff re-reading recovers the why.
+- **Overusing `/handoff`.** It's only for the four portability cases; a handoff file when nothing travels is ceremony.
+- **Skipping the ordering.** Asking question 4 before question 1 lands you in subagents with context that should have stayed put.

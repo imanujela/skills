@@ -30,3 +30,14 @@ A workflow spec is done when an implementer agent could build it without asking 
 
 - `workflows/*.md`: one spec per workflow.
 - `NOTES.md`: raw notes on the user's world, the tools they use, the channels they process, and their own terminology for both. When it is empty or thin, interview them about their world before specifying anything. Sharpen fuzzy terms into canonical ones as they surface, and record them here.
+
+## WIP framing (in progress)
+
+The output is living specs, not a one-shot answer. Keep `workflows/*.md` and `NOTES.md` current every time the grilling resolves something — a resolved question that dies in conversation is a lost answer.
+
+## Pitfalls
+
+- **Don't force structure on a loop that doesn't need it.** The vocabulary exists to describe, not to constrain. A workflow with no checkpoint is legitimate.
+- **Push right, then stop.** The checkpoint should be as late as possible — but it must exist. "Push right" is not "delete the human."
+- **A brief is not a report.** If the checkpoint shows raw output or a wall of text, you've failed the brief definition.
+- **Interview before you specify.** An empty `NOTES.md` means you don't know the user's world yet; guessing produces workflows that miss the real loop.

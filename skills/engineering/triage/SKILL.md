@@ -67,13 +67,13 @@ Show counts and a one-line summary per item. Let the maintainer pick.
 
 ## Triage a specific issue or PR
 
-1. **Gather context.** Read the full issue or PR (body, comments, labels, author, dates; for a PR, the diff too). Parse any prior triage notes so you don't re-ask resolved questions. Explore the codebase using the project's domain glossary, respecting ADRs in the area. Run two checks against the codebase: (a) **redundancy**: search for an existing implementation of the requested behavior by domain concept (not just the request's wording), and report where you looked. If found, it's an already-implemented `wontfix` (step 5). (b) **prior rejection**: read `.out-of-scope/*.md` and surface any that resembles this request.
+1. **Gather context.** Read the full issue or PR (body, comments, labels, author, dates; for a PR, the diff too). Parse any prior triage notes so you don't re-ask resolved questions. Explore the codebase using the project's domain glossary, respecting ADRs in the area. Run two checks against the codebase: (a) **redundancy**: search for an existing implementation of the requested behavior by domain concept (not just the request's wording), and report where you looked. If found, it's an already-implemented `wontfix` (step 5). (b) **prior rejection**: read `.out-of-scope/*.md` and surface any that resembles this request. *Done when:* you've read the whole item and its history, and you can name both the current code state and any matching prior rejection.
 
-2. **Recommend.** Tell the maintainer your category and state recommendation with reasoning, plus a brief codebase summary relevant to the request (including whether it's already implemented). Wait for direction.
+2. **Recommend.** Tell the maintainer your category and state recommendation with reasoning, plus a brief codebase summary relevant to the request (including whether it's already implemented). Wait for direction. *Done when:* the maintainer has approved (or overridden) the recommendation before you act on it.
 
-3. **Verify the claim.** Before any grilling, check that the claim holds up. For a bug, reproduce it from the reporter's steps. For a PR, confirm the diff does what it claims: check it out, run the relevant tests or commands. Report what happened: confirmed (with code path), failed, or insufficient detail (a strong `needs-info` signal). A confirmed verification makes a much stronger agent brief.
+3. **Verify the claim.** Before any grilling, check that the claim holds up. For a bug, reproduce it from the reporter's steps. For a PR, confirm the diff does what it claims: check it out, run the relevant tests or commands. Report what happened: confirmed (with code path), failed, or insufficient detail (a strong `needs-info` signal). A confirmed verification makes a much stronger agent brief. *Done when:* you can state confirmed/failed/insufficient for the core claim, with evidence.
 
-4. **Grill (if needed).** If the request needs fleshing out, call the Skill tool twice, for "grilling" and "domain-modeling", and grill it into shape a round of questions at a time, sharpening domain terms and updating `GLOSSARY.md`/ADRs inline as decisions land.
+4. **Grill (if needed).** If the request needs fleshing out, call the Skill tool twice, for "grilling" and "domain-modeling", and grill it into shape a round of questions at a time, sharpening domain terms and updating `GLOSSARY.md`/ADRs inline as decisions land. *Done when:* the request is specified well enough to state exact behavior, edge cases, and the domain terms it depends on.
 
 5. **Apply the outcome:**
    - `ready-for-agent`: post an agent brief comment ([AGENT-BRIEF.md](AGENT-BRIEF.md)).
@@ -84,6 +84,7 @@ Show counts and a one-line summary per item. Let the maintainer pick.
      - **Rejected (bug)**: give a polite explanation, then close.
      - **Rejected (enhancement)**: write to `.out-of-scope/`, link to it from a comment, then close ([OUT-OF-SCOPE.md](OUT-OF-SCOPE.md)).
    - `needs-triage`: apply the role. Optional comment if there's partial progress.
+   *Done when:* the role is applied, the required comment/brief is posted with the AI disclaimer, and (for `wontfix` enhancement) `.out-of-scope/` is updated.
 
 ## Quick state override
 
@@ -109,4 +110,19 @@ Capture everything resolved during grilling under "established so far" so the wo
 
 ## Resuming a previous session
 
-If prior triage notes exist on the issue or PR, read them, check whether the reporter has answered any outstanding questions, and present an updated picture before continuing. Don't re-ask resolved questions.
+If prior triage notes exist on the issue or PR, read them, check whether the reporter has answered any outstanding questions, and present an updated picture before continuing. Don't re-ask resolved questions. *Done when:* you can show what changed since the last triage pass and what (if anything) is still outstanding.
+
+## Verification
+
+- Every comment/issue posted starts with the AI disclaimer.
+- Every triaged item carries exactly one category + one state role; conflicting state roles were flagged to the maintainer first.
+- For `ready-for-agent`, an agent brief following [AGENT-BRIEF.md](AGENT-BRIEF.md) is attached.
+- For `wontfix`/already-implemented, no `.out-of-scope/` file was written; the comment points at the existing code.
+- For `wontfix`/rejected-enhancement, `.out-of-scope/` was updated and linked from the closing comment.
+
+## Pitfalls
+
+- **Re-asking resolved questions**: a fresh session re-grills what a prior triage note already established. Parse prior notes first.
+- **Keyword matching for redundancy**: searching by the request's wording and missing an implementation under a different domain term. Search by domain concept, and report where you looked.
+- **Skipping verification**: grilling a claim you never reproduced. Reproduce the bug or run the PR's tests before the brief, or the brief starts from an unverified premise.
+- **Writing `.out-of-scope/` for built features**: recording an already-implemented `wontfix` as a rejection, poisoning the dedup check with a false negative.

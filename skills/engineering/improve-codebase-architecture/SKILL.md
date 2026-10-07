@@ -1,6 +1,6 @@
 ---
 name: improve-codebase-architecture
-description: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
+description: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick. Use when the user has a spare moment to keep the codebase good for agents to operate in, or asks to find architecture/refactoring opportunities.
 disable-model-invocation: true
 ---
 
@@ -34,6 +34,8 @@ Then spawn a sub-agent to walk the codebase. Don't follow rigid heuristics; expl
 
 Apply the **deletion test** to anything you suspect is shallow: would deleting it concentrate complexity, or just move it? A "yes, concentrates" is the signal you want.
 
+Done when the scan's scope was decided before looking (named direction or a commit-history-derived hot spot), the glossary and nearby ADRs were read, and each reported candidate passed the deletion test.
+
 ### 2. Present candidates as an HTML report
 
 Write a self-contained HTML file to the OS temp directory so nothing lands in the repo. Resolve the temp dir from `$TMPDIR`, falling back to `/tmp` (or `%TEMP%` on Windows), and write to `<tmpdir>/architecture-review-<timestamp>.html` so each run gets a fresh file. Open it for the user (`xdg-open <path>` on Linux, `open <path>` on macOS, `start <path>` on Windows) and tell them the absolute path.
@@ -59,6 +61,8 @@ See [HTML-REPORT.md](HTML-REPORT.md) for the full HTML scaffold, diagram pattern
 
 Do NOT propose interfaces yet. After the file is written, ask the user: "Which of these would you like to explore?"
 
+Done when the report is written to the temp dir (not the repo), opened for the user, each card names files/problem/solution/benefits/before-after/strength, and the report ends with a single top recommendation. No interface was proposed in the report.
+
 ### 3. Grilling loop
 
 Once the user picks a candidate, call the Skill tool with "grilling" to walk the decision tree with them: constraints, dependencies, the shape of the deepened module, what sits behind the seam, what tests survive.
@@ -69,3 +73,22 @@ Side effects happen inline as decisions crystallize; call the Skill tool with "d
 - **Sharpening a fuzzy term during the conversation?** Update `GLOSSARY.md` right there.
 - **User rejects the candidate with a load-bearing reason?** Offer an ADR, framed as: _"Want me to record this as an ADR so future architecture reviews don't re-suggest it?"_ Only offer when the reason would actually be needed by a future explorer to avoid re-suggesting the same thing; skip ephemeral reasons ("not worth it right now") and self-evident ones.
 - **Want to explore alternative interfaces for the deepened module?** Call the Skill tool with "codebase-design" and use its design-it-twice parallel sub-agent pattern.
+
+Done when the picked candidate was walked through the grilling decision tree, and every side effect that crystallised (new/renamed glossary term, ADR, design-it-twice pass) was actually applied inline.
+
+## Verification
+
+The run was correct when:
+
+- The report lives in the OS temp dir, never in the repo, and was opened for the user.
+- Every architectural noun in the report is from the `/codebase-design` glossary; the domain nouns come from `GLOSSARY.md`; zero "component/service/boundary" drift.
+- Each candidate card has all six elements and ends with a top recommendation, and no interface was proposed prematurely.
+- The grilling phase used the "grilling" skill, and each side effect was applied to the docs as it happened.
+
+## Pitfalls
+
+- **Scanning without scoping.** Walking the whole codebase instead of deciding a direction first; you surface volume instead of signal. Scope from a named direction or the commit-history hot spot.
+- **Report in the repo.** Writing `architecture-review.html` into the project dir pollutes the tree and risks a stray commit. Temp dir only.
+- **Vocabulary drift.** "Service", "component", "boundary", "API" creeping into suggestions that should name modules, seams, and interfaces; the glossary terms are load-bearing.
+- **Proposing interfaces too early.** The report surfaces candidates; the interface design belongs to the grilling phase, where the user's answers constrain it.
+- **Re-suggesting what an ADR forbids.** Re-litigating a recorded decision unless the friction is genuinely strong enough to warrant reopening it.
